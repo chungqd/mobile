@@ -1,0 +1,46 @@
+.blockuserinfo-nav{
+	
+}
+
+.blockuserinfo-nav .link-nav {
+	padding: 0 15px;
+    position: relative;
+}
+.blockuserinfo-nav .link-nav:before{
+	background: #5a5a5a none repeat scroll 0 0;
+    content: "";
+    display: block;
+    height: 15px;
+    left: 0;
+    position: absolute;
+    top: 13px;
+    width: 1px;
+}
+.blockuserinfo-nav .link-nav:last-child{
+	padding-right:0;
+}
+.blockuserinfo-nav .link-nav:first-child:before{
+	display:none;
+}
+
+.blockuserinfo-nav .link-nav a{
+	color: #fff;
+    font-size: 14px;
+    line-height: 40px;
+}
+.blockuserinfo-nav .link-nav a:hover{color: #ff3333;}
+
+@media (max-width: 767px) {
+	.blockuserinfo-nav{
+		position:relative;
+	}
+	.blockuserinfo-nav .toogle_content{
+		left: 0;
+	}
+}
+@media (max-width: 360px) {
+	.blockuserinfo-nav .link-nav {
+		padding: 0 5px;
+	}
+}
+/*# sourceMappingURL=blockuserinfo.css.map */

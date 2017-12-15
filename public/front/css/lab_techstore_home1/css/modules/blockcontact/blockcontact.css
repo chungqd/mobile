@@ -1,0 +1,94 @@
+.blockcontact{}	
+.blockcontact span{
+	color: #ffffff;
+    font-size: 14px;
+    line-height: 40px;
+}	
+.blockcontact span.or{
+	margin:0 5px;
+}
+.blockcontact span strong{
+	color:#ff3333 ;
+	font-weight:normal;
+}
+.blockcontact span i{
+	border:1px solid #fff;
+	border-radius: 100%;
+    color: #ff3333 ;
+    display: inline-block;
+    font-size: 16px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    width: 30px;
+	margin-right:5px;
+	-webkit-transform: translateY(2px);
+	-moz-transform: translateY(2px);
+	-ms-transform: translateY(2px);
+	-0-transform: translateY(2px);
+	transform: translateY(2px);
+}
+  @media (max-width: 767px) {
+	.blockcontact span {
+		display: inline-block;
+	}
+	.blockcontact span.or{
+		display:none;
+	}
+  }
+  .shop-phone strong {
+    color: #ff4f4f; }
+  @media (max-width: 991px) {
+    .shop-phone.is_logged {
+      display: none; } }
+
+#contact-link {
+  float: right;}
+  @media (max-width: 479px) {
+    #contact-link {
+      text-align: center; } }
+  #contact-link a {
+	color: #333333;
+    cursor: pointer;
+    display: block;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 40px;
+    padding: 0 10px;
+    text-transform: uppercase;}
+    @media (max-width: 479px) {
+      #contact-link a {
+        font-size: 11px;
+        padding-left: 5px;
+        padding-right: 5px; } }
+#contact-link a:hover, 
+#contact-link a.active {
+  color: #ff4f4f; }
+  @media (max-width: 767px) {
+    #contact-link.is_logged {
+      display: none; } }
+
+@media (max-width: 767px) {
+  #contact_block {
+    margin-bottom: 20px; } 
+	.blockcontact {
+		clear: both;
+		width: 100%;
+	}
+}
+#contact_block .label {
+  display: none; }
+#contact_block .block_content {
+  color: #888888; }
+#contact_block p {
+  margin-bottom: 4px; }
+#contact_block p.tel {
+  font: 400 17px/21px Arial, Helvetica, sans-serif;
+  color: #333;
+  margin-bottom: 6px; }
+  #contact_block p.tel i {
+    font-size: 25px;
+    vertical-align: -2px;
+    padding-right: 10px; }
+
+/*# sourceMappingURL=blockcontact.css.map */
