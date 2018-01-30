@@ -23,9 +23,9 @@
         </form>
         <!-- /.search form -->
         <!-- sidebar menu: : style can be found in sidebar.less -->
-        <ul class="sidebar-menu">
+        <ul class="sidebar-menu" id="side-menu">
             <li>
-                <a href="home"><i class="fa fa-home"></i>Trang chủ</a>
+                <a href="admin/home"><i class="fa fa-home"></i>Trang chủ</a>
             </li>
             <li>
                 <a href="admin/post/list"><i class="fa fa-book"></i>Quản lý bài viết</a>
@@ -43,6 +43,24 @@
                 <li>
                     <a href="admin/order/list"><i class="fa fa-th"></i>Quản lý Đơn hàng</a>
                 </li>
+                <li>
+                    <a href="admin/phieunhap/list"><i class="fa fa-th"></i>Quản lý Phiếu nhập</a>
+                </li>
+                <li>
+                    <a href="admin/ctphieunhap/list"><i class="fa fa-th"></i>Quản lý chi tiết Phiếu nhập</a>
+                </li>
+                <li>
+                            <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Thống kê<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="admin/statistical/products">Sản phẩm bán</a>
+                                </li>
+                                <li>
+                                    <a href="admin/statistical/profit">Doanh thu, lợi nhuận</a>
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
             {{-- @endif --}}
         </ul>
     </section>

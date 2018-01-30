@@ -75,4 +75,16 @@ class OrderController extends Controller
             return redirect('admin/order/list')->with('mess', "Không tồn tại đơn hàng cần xóa");
         }
     }
+
+    public function detailOrder($id){
+        $order = DonHang::find($id);
+        // dd($order);
+        $detailOrder = DonHang::getDetailOrder($id);
+        return view('admin.order.detailOrder', compact('order', 'detailOrder'));
+    }
+
+    public function search($keyword) {
+        $orders = DonHang::searchOrders($keyword);
+        return view('admin.order.index', ['orders' => $orders]);
+    }
 }

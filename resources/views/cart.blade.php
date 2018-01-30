@@ -80,14 +80,14 @@
                 </tr>
 				<tr class="cart_total_price">
                     <td colspan="3" class="total_price_container text-right">
-                        <span>Total</span>
+                        <span>Tổng tiền</span>
                         <div class="hookDisplayProductPriceBlock-price">
                             
                         </div>
                     </td>
                     {{-- <td colspan="" rowspan="" headers=""></td> --}}
                     <td colspan="3" class="price" id="total_price_container">
-						<span id="total_price">{{ Cart::subtotal() }}</span>
+						<span id="total_price">{{ number_format(Cart::subtotal(), 0, ",", ".") }}</span>
 					</td>
 				</tr>
             </tfoot>
@@ -145,8 +145,14 @@
     </div> <!-- end order-detail-content -->
 <div id="HOOK_SHOPPING_CART"></div>
     <p class="cart_navigation clearfix">
-                    <a href="{{ route('order') }}" class="button btn btn-default standard-checkout button-medium" title="Đặt hàng" style="">
+
+                    
+
+                    <a href="{{ route('order') }}" class="button btn btn-default standard-checkout button-medium" title="Đặt hàng" style="background: #48c120;">
                 <span id="order">Đặt hàng<i class="icon-chevron-right right"></i></span>
+            </a>
+            <a href="{{ route('destroyCart') }}" class="button btn btn-danger standard-checkout button-medium" title="Xóa tất cả" style="">
+                <span id="order"><i class="icon-trash right"></i> Xóa tất cả</span>
             </a>
                 <a href="{{ route('home') }}" class="button-exclusive btn btn-default" title="tiếp tục mua hàng">
             <i class="icon-chevron-left"></i>tiếp tục mua hàng

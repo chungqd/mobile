@@ -12,6 +12,7 @@ use App\User;
 use App\Product;
 use App\DonHang;
 use App\CTDonHang;
+use App\Post;
 use Cart;
 use DB;
 
@@ -45,9 +46,11 @@ class HomeController extends Controller
     {
         $productDetail = Product::getDetailProduct($id);
         $imgDetail = Product::find($productDetail->id)->image;
-        $productBrands = Product::where('brands_id', $productDetail->brands_id)->get();
-//        dd($productDetail);
-        return view('detail', compact('productDetail', 'imgDetail', 'productBrands'));
+        $productBrands = Product::where('brands_id', $productDetail->brands_id)->where('id', '<>', $id)->get();
+
+        $price = empty($productDetail->giamoi) ? $productDetail->giacu : $productDetail->giamoi;
+        $samePriceProducts = Product::getSamePrice($price, $id);
+        return view('detail', compact('productDetail', 'imgDetail', 'productBrands', 'samePriceProducts'));
     }
 
     public function brandProduct($id)
@@ -59,6 +62,25 @@ class HomeController extends Controller
 //            $productByBrands = $productByBrands->simplePaginate(4);
 //        dd($productByBrands);
         return view('brandProduct', compact('productByBrands', 'nameBrand'));
+    }
+
+    public function getIdCompare(Request $request)
+    {
+        $idCompare = Product::select('id', 'name')->where('name', 'like', '%'.$request->keyword.'%')->get();
+        foreach ($idCompare as $value) {
+            echo '<div><a href="compareprd/'.$request->id.'/'.$value->id.'">'.$value->name.'</a></div>'.'<br/>';
+        } 
+    }
+
+    public function compareProducts($idProduct, $idCompare)
+    {
+        if (!is_numeric($idProduct) || !is_numeric($idCompare)) {
+            return view('errors.404');
+        }
+
+        $mainProduct = Product::find($idProduct);
+        $compareProduct = Product::find($idCompare);
+        return view('compareProduct', compact('mainProduct', 'compareProduct'));
     }
 
     public function price($price)
@@ -129,9 +151,9 @@ class HomeController extends Controller
             'email_create.required'    => 'Trường email còn trống',
             'email_create.unique'      => 'Đã tồn tại email',
             'email_create.email'       => 'Không đúng định dạng email',
-            'fullname.required'     => 'Bạn chưa nhập tên chuyên mục',
-            'fullname.max'          => 'Tên chuyên mục phải có độ dài 3 - 100 kí tự',
-            'fullname.min'          => 'Tên chuyên mục phải có độ dài 3 - 100 kí tự',
+            'fullname.required'     => 'Bạn chưa nhập tên hiển thị',
+            'fullname.max'          => 'Tên hiển thị phải có độ dài 3 - 100 kí tự',
+            'fullname.min'          => 'Tên hiển thị phải có độ dài 3 - 100 kí tự',
             'passwd.required' => 'Trường mật khẩu không được để trống',
             'passwd.min'      => 'Mật khẩu phải có độ dài từ 6 - 60 ký tự',
             'passwd.max'      => 'Mật khẩu phải có độ dài từ 6 - 60 ký tự',
@@ -215,9 +237,42 @@ class HomeController extends Controller
     public function addCart($id)
     {
         $product = Product::find($id);
-        Cart::add(array('id'=>$id, 'name'=>$product->name, 'qty'=>1, 'price'=>$product->giacu, 'options' => array('img'=>$product->hinhanh)));
+        $gia = empty($product->giamoi) ? $product->giacu : $product->giamoi;
+        Cart::add(array('id'=>$id, 'name'=>$product->name, 'qty'=>1, 'price'=>$gia, 'options' => array('img'=>$product->hinhanh)));
         $content = Cart::content();
         return redirect()->route('gio-hang');
+    }
+
+    // add to cart from page detail products
+    public function addCartDetail(Request $request, $id)
+    {
+        $qty = isset($request->qty) ? trim($request->qty) : '';
+        $content = Cart::content();
+        if (!$content) {
+            $product = Product::find($id);
+            $gia = empty($product->giamoi) ? $product->giacu : $product->giamoi;
+            Cart::add(array('id'=>$id, 'name'=>$product->name, 'qty'=>$qty, 'price'=>$gia, 'options' => array('img'=>$product->hinhanh)));
+            $content = Cart::content();
+            return redirect()->route('gio-hang');
+        }
+        foreach (Cart::content() as $item) {
+            if ($item->id == $id) {
+                $product = Product::find($id);
+                $soluong = $qty + $item->qty;
+                Cart::update($item->rowId, $soluong);
+                // $content = Cart::content();
+                return redirect()->route('gio-hang');
+                // break;
+            } else {
+                $product = Product::find($id);
+                $gia = empty($product->giamoi) ? $product->giacu : $product->giamoi;
+                Cart::add(array('id'=>$id, 'name'=>$product->name, 'qty'=>$qty, 'price'=>$gia, 'options' => array('img'=>$product->hinhanh)));
+                $content = Cart::content();
+                return redirect()->route('gio-hang');
+                // break;
+            }
+        }
+
     }
 
     public function gioHang()
@@ -231,7 +286,7 @@ class HomeController extends Controller
     public function delSp($id)
     {
         Cart::remove($id);
-        return redirect()->route('gio-hang');
+        return redirect()->route('home');
     }
 
     public function updateSp(Request $request, $id)
@@ -291,7 +346,43 @@ class HomeController extends Controller
             $detailOrder->thanhtien = ($item->qty)*($item->price);
             $detailOrder->save();
         }
+        $idDonHang = encrypt($idOrder);
+        $bill = DonHang::getDetailOrderCart($idOrder);
+        $data = ['ten_kh' => $request->fullname, 'diachi' => $donHang->diachi, 'sdt' => $request->phone, 'tongtien' => $total, 'ghichu' => $request->note, 'link' => $idDonHang, 'ngaydat' => $donHang->created_at, 'email' => $request->email_create, 'bill' => $bill]; 
+        Mail::send('mailCart', $data, function ($message) {
+            $message->from('php1608e@gmail.com', 'CHUNG MOBILE');
+            $message->to(Input::get('email_create'))->subject('Xác thực mua hàng');
+        });
         Cart::destroy();
         return redirect()->route('order')->with('thongbao', 'Đặt hàng thành công vui lòng đợi liên hệ lại');
+    }
+
+    // public function xacminh($id)
+    // {
+        
+    // }
+    // 
+    public function news()
+    {
+        $posts = Post::paginate(3);
+        return view('news', compact('posts'));
+    }
+
+    public function detailNews($id)
+    {
+        $post = Post::find($id);
+        $view = $post->soluotxem;
+        DB::beginTransaction();
+        try {
+            $post->soluotxem = $view + 1;
+            $post->save();
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollback();
+            throw $ex;
+        }
+        $idUser = $post->user_id;
+        $user = User::find($idUser);
+        return view('detailNews', ['post'=>$post, 'user' => $user]);
     }
 }

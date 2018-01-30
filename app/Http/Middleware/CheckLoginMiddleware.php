@@ -18,9 +18,11 @@ class CheckLoginMiddleware
         if (Auth::check()) {
             if (Auth::user()->quyen == 2 || Auth::user()->quyen == 3) {
                 return $next($request);
+            } else{
+                return redirect('admin/login');
             }
         }else{
-            return redirect('signin');
+            return redirect('admin/login');
         }
         
     }

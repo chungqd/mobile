@@ -87,7 +87,7 @@
                     </td>
                     {{-- <td colspan="" rowspan="" headers=""></td> --}}
                     <td colspan="3" class="price" id="total_price_container">
-						<span id="total_price">{{ Cart::subtotal() }}</span>
+						<span id="total_price">{{ number_format(Cart::subtotal(), 0, ",", ".") }}</span>
 					</td>
 				</tr>
             </tfoot>

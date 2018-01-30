@@ -128,9 +128,9 @@
 										<div class="lab-cart">
 											<a class="button " href="{{ route('addcart', $productByBrand->id) }}"
 											data-id-product="{{ $productByBrand->id }}"
-											title="Add to cart" >
+											title="Thêm vào giỏ hàng" >
 												<i class="mdi mdi-basket"></i>
-												<span>Add to cart</span>
+												<span>Giỏ hàng</span>
 											</a>												
 										</div>
 					<div class="actions">
@@ -148,9 +148,9 @@
 									data-product-name="{{ $productByBrand->name }}"
 									data-product-cover="uploads/products/{{ $productByBrand->hinhanh }}"
 									data-id-product="{{ $productByBrand->id }}"
-									title="Add to Cart">
+									title="Thêm vào giỏ hàng">
 									<i class="pe-icon pe-7s-repeat"></i>
-									Add to Cart
+									Giỏ hàng
 								</a>
 							</li>
 						</ul>

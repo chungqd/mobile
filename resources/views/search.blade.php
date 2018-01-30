@@ -128,11 +128,11 @@
                                             <span class=" label-success">In stock</span>
                                         </span>
                                         <div class="lab-cart">
-                                            <a class="button ajax_add_to_cart_button btn btn-default" href="order7a0f.html?add=1&amp;id_product=1&amp;token=8094a5532f541448c6101a27e0f8d489"
+                                            <a class="button ajax_add_to_cart_button btn btn-default" href="{{ route('addcart', $product->id) }}"
                                                data-id-product="{{ $product->id }}"
-                                               title="Add to cart" >
+                                               title="Thêm vào giỏ hàng" >
                                                 <i class="mdi mdi-basket"></i>
-                                                <span>Add to cart</span>
+                                                <span>Giỏ hàng</span>
                                             </a>
                                         </div>
                                         <div class="actions">
@@ -145,14 +145,14 @@
 
                                                 {{--</li>--}}
                                                 <li class="lab-compare pull-left">
-                                                    <a class="add_to_compare"
-                                                       href="#"
+                                                    <a class=""
+                                                       href="{{ route('addcart', $product->id) }}"
                                                        data-product-name="{{ $product->name }}"
                                                        data-product-cover="uploads/products/{{ $product->hinhanh }}"
                                                        data-id-product="{{ $product->id }}"
-                                                       title="Add to Cart">
+                                                       title="Thêm vào giỏ hàng">
                                                         <i class="pe-icon pe-7s-repeat"></i>
-                                                        Add to Cart
+                                                        Giỏ hàng
                                                     </a>
                                                 </li>
                                             </ul>

@@ -11,17 +11,25 @@
     <base href="{{asset('')}}" > 
     <link href="{{asset('css/styleadmin.css')}}" rel="stylesheet" type="text/css"/>
     <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{asset('css/metisMenu.min.css')}}">
+    <link rel="stylesheet" href="{{asset('css/sb-admin-2.css')}}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="{{asset('css/dataTables.responsive.css')}}">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{asset('css/font-awesome.min.css')}}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{asset('css/AdminLTE.min.css')}}">
     <link rel="stylesheet" href="{{asset('css/_all-skins.min.css')}}">
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
 
     <link rel="stylesheet" href="css/dropzone.css">
 
     <!-- jquery -->
     <script src="{{asset('js/jquery-1.12.0.min.js')}}"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
     <!-- Bootstrap 3.3.6 -->
     <script src="{{asset('js/bootstrap.min.js')}}"></script>
     <script src="{{asset('js/app.min.js')}}"></script>
@@ -58,10 +66,9 @@
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <img src="{{asset('images/admin.jpg')}}" class="user-image" alt="User Image">
-                            {{-- @if(Auth::check()) --}}
-                            {{-- {{Auth::user()->name}} --}}
-                            <span class="hidden-xs"></span>
-                            {{-- @endif --}}
+                            @if(Auth::check())
+                            <span class="hidden-xs">{{Auth::user()->name}}</span>
+                            @endif
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->

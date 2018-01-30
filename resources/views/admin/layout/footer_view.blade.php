@@ -6,6 +6,8 @@
     reserved.
 </footer>
 </div>
+<script src="{{asset('js/metisMenu.min.js')}}" type="text/javascript"></script>
+<script src="{{asset('js/sb-admin-2.js')}}" type="text/javascript"></script>
 <script src="js/dropzone.js"></script>
 </body>
 </html>

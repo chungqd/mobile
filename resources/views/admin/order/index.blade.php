@@ -35,7 +35,7 @@
                             <th>Tổng tiền</th>
                             <th>Ghi chú</th>
                             <th>Trạng thái</th>
-                            <th class="text-center" colspan="2">Action</th>
+                            <th class="text-center" colspan="3">Hành động</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -49,8 +49,9 @@
                                 <td>{{$order->tongtien}}</td>
                                 <td>{{$order->ghichu}}</td>
                                 <td>{{$order->status == 0 ? 'Đang đợi xử lý' : 'Đã xử lý'}}</td>
-                                <td><a href="admin/order/edit/{{$order->id}}" title="" class="btn btn-warning pull-right">Edit <i class="fa fa-pencil-square" aria-hidden="true"></i></a></td>
-                                <td><a onclick="deleteData({{$order->id}})" title="" class="btn btn-danger">Delete <i class="fa fa-trash" aria-hidden="true"></i></a></td>
+                                <td><a href="admin/order/detail/{{$order->id}}" title="Xem" class="btn btn-success pull-right"><i class="fa fa-eye" aria-hidden="true"></i></a></td>
+                                <td><a href="admin/order/edit/{{$order->id}}" title="Sửa" class="btn btn-warning pull-right"><i class="fa fa-pencil-square" aria-hidden="true"></i></a></td>
+                                <td><a onclick="deleteData({{$order->id}})" title="Xóa" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
                             </tr>
                         @endforeach
                         </tbody>
@@ -70,7 +71,7 @@
         $(document).ready(function() {
             $("#btnSearch").click(function(){
                 var keyword = $.trim($("#txtSearch").val());
-                window.location.href = "admin/user/search/"+keyword;
+                window.location.href = "admin/order/search/"+keyword;
             });
         });
     </script>

@@ -146,10 +146,10 @@
     </div> --}} <!-- end short_description_block -->
 
     <!-- add to cart form-->
-    <form id="buy_block" action="http://labbluesky.com/prestashop/lab_techstore16/en/cart" method="post">
+    <form id="buy_block" action="{{ route('addCartDetail', $productDetail->id) }}" method="post">
         <!-- hidden datas -->
         <p class="hidden">
-            <input type="hidden" name="token" value="8094a5532f541448c6101a27e0f8d489" />
+            <input type="hidden" name="_token" value="{{csrf_token()}}"/>
             <input type="hidden" name="id_product" value="17" id="product_page_product_id" />
             <input type="hidden" name="add" value="1" />
             <input type="hidden" name="id_product_attribute" id="idCombination" value="" />
@@ -199,7 +199,7 @@
                             {{-- <a href="#" data-field-qty="qty" class="btn btn-default button-minus product_quantity_down">
                                 <span><i class="pe-7s-less"></i></span>
                             </a> --}}
-                            <input disabled=""  min="1" name="qty" id="quantity_wanted" class="text" value="1" />
+                            <input  min="1" max="10" name="qty" id="quantity_wanted" class="text" value="1" />
 
                             {{-- <a href="#" data-field-qty="qty" class="btn btn-default button-plus product_quantity_up">
                                 <span><i class="pe-7s-plus"></i></span>
@@ -210,16 +210,17 @@
 
 
                     <div id="" >
-                        <a href="{{ route('addcart', $productDetail->id) }}" id="" class="buttons_bottom_block no-print">
+                        <a href="{{ route('addCartDetail', $productDetail->id) }}" id="" class="buttons_bottom_block no-print">
                             <button type="submit" name="Submit" class="exclusive">
-                                <span>Add to cart</span>
+                                <span>Thêm vào giỏ hàng</span>
                             </button>
                         </a>
+
                 </div>
                     
                 
                 <!-- usefull links-->
-                <ul id="usefull_link_block" class="no-print">
+                {{-- <ul id="usefull_link_block" class="no-print">
                     <li class="sendtofriend">
                         <a id="send_friend_button" href="#send_friend_form">
                             Send to a friend
@@ -286,7 +287,7 @@
                             <span>Print</span>
                         </a>
                     </li>
-                </ul>
+                </ul> --}}
 
                                             <!--     <div class="buttons_bottom_block">
                                                     <a href="javascript:;" class="add_to_compare compare_button " rel="nofollow" title="Add to compare" data-product-id="17" data-product-name="Apple Iphone 7 &ndash; 64GB" data-product-cover="http://labbluesky.com/prestashop/lab_techstore16/85-medium_default/printed-dress.jpg"  data-product-link="http://labbluesky.com/prestashop/lab_techstore16/en/casual-dresses/17-printed-dress.html" ><i class="icon-retweet"></i><span>Add to compare</span></a>
@@ -301,11 +302,12 @@
                                 </div> <!-- end box-info-product -->
                             </form>
                             <p class="socialsharing_product list-inline no-print">
-                                <button data-type="twitter" type="button" class="btn btn-default btn-twitter social-sharing">
-                                    <i class="icon-twitter"></i> Tweet
+                                <a href="{!! url()->current() !!}#sectioncompare"><button data-type="twitter" type="button" class="btn btn-default btn-twitter social-sharing">
+                                    <i class="pe-icon pe-7s-repeat"></i> So sánh
                                     <!-- <img src="http://labbluesky.com/prestashop/lab_techstore16/modules/socialsharing/img/twitter.gif" alt="Tweet" /> -->
-                                </button>
-                                <button data-type="facebook" type="button" class="btn btn-default btn-facebook social-sharing">
+                                </button></a>
+
+                                {{-- <button data-type="facebook" type="button" class="btn btn-default btn-facebook social-sharing">
                                     <i class="icon-facebook"></i> Share
                                     <!-- <img src="http://labbluesky.com/prestashop/lab_techstore16/modules/socialsharing/img/facebook.gif" alt="Facebook Like" /> -->
                                 </button>
@@ -316,7 +318,7 @@
                                 <button data-type="pinterest" type="button" class="btn btn-default btn-pinterest social-sharing">
                                     <i class="icon-pinterest"></i> Pinterest
                                     <!-- <img src="http://labbluesky.com/prestashop/lab_techstore16/modules/socialsharing/img/pinterest.gif" alt="Pinterest" /> -->
-                                </button>
+                                </button> --}}
                             </p>
 
                             <!--  /Module ProductComments -->
@@ -470,9 +472,9 @@
 
                     <!--end HOOK_PRODUCT_TAB -->
 
-                    <div  class="row">
-                        <div  class="page-product-box blockproductscategory lablistproducts laberthemes">
-                            <div  class="row">
+                    <div id="sectioncompare" class="row">
+                        <div class="page-product-box blockproductscategory lablistproducts laberthemes">
+                            <div class="row">
                                 <p class="title_block">
                                     <span>
                                         {{ count($productBrands) }} sản phẩm cùng hãng:
@@ -531,19 +533,19 @@
                                                             <li class="lab-Wishlist pull-left">
                                                                 <a onclick="WishlistCart('wishlist_block_list', 'add', '{{ $element->id }}', $('#idCombination').val(), 1,'tabproduct'); return false;" class="add-wishlist wishlist_button" href="#"
                                                                 data-id-product="{{ $element->id }}"
-                                                                title="Add to Wishlist">
-                                                                <i class="pe-icon pe-7s-like"></i>Wishlist</a>
+                                                                title="Add to Cart">
+                                                                <i class="pe-icon pe-7s-cart"></i>Giỏ hàng</a>
 
                                                             </li>
                                                             <li class="lab-compare pull-left">
-                                                                <a class="add_to_compare"
-                                                                href="#"
+                                                                <a class=""
+                                                                href="{{ route('compareprd', [$productDetail->id, $element->id]) }}"
                                                                 data-product-name="{{ $element->name }}"
                                                                 data-product-cover="uploads/products/{{ $element->hinhanh }}" alt="{{ $element->name }}"
                                                                 data-id-product="{{ $element->id }}"
-                                                                title="Add to Compare">
+                                                                title="So sánh">
                                                                 <i class="pe-icon pe-7s-repeat"></i>
-                                                                Compare
+                                                                So sánh
                                                             </a>
                                                         </li>
                                                     </ul>
@@ -585,8 +587,145 @@
                                     </div>
                                 </div>
                             </div>
+
                         </div>
+                        
+
+                        {{-- so sanh --}}
+                        <div  class="row">
+                        <div  class="page-product-box blockproductscategory lablistproducts laberthemes">
+                            <div  class="row">
+                                <p class="title_block">
+                                    <span>
+                                        So sánh
+                                    </span>
+                                </p>
+                                <div id="productscategory_list" class="clearfix">
+                                    <div class="pos-productscategory">
+                                    @foreach ($samePriceProducts as $samePriceProduct)
+                                        <div class="item-inner wow fadeInUp " data-wow-delay="{{ $samePriceProduct->id.'00ms' }}" >
+
+                                            <div class="item">
+                                                <div class="left-block">
+                                                    <h5 class="product-name"><a href="{{ route('detail', $samePriceProduct->id) }}" title="{{ $samePriceProduct->name }}">{{ $samePriceProduct->name }}</a></h5>
+
+                                                    <div class="product-image-container">
+                                                        <a class= "product_image" href="{{ route('detail', $samePriceProduct->id) }}" title="{{ $samePriceProduct->name }}">
+                                                            <img class="img-responsive img1" src="uploads/products/{{ $samePriceProduct->hinhanh }}" alt="{{ $samePriceProduct->name }}" />
+
+                                                            {{-- <img  class="img-responsive img2" src="../../34-large_default/printed-dress.jpg" alt=""  itemprop="image"  /> --}}
+                                                        </a>
+
+                                                        @if ($samePriceProduct->giamoi)
+                                                            <span class="sale-label">Sale</span>
+                                                        @else
+                                                            <span class="new-label">New</span>
+                                                        @endif
+
+
+                                                        <!--  -->
+                                                    </div>
+
+                                                </div>
+                                                <div class="right-block">
+                                                    <div class="media-body">
+                                                        <div class="content_price pull-left" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+                                                            <span itemprop="price" class="price product-price">{{ $samePriceProduct->giamoi == 0 ? number_format($samePriceProduct->giacu) : number_format($samePriceProduct->giamoi)}}</span>
+                                                            <meta itemprop="priceCurrency" content="VND" />
+                                                            @if ($samePriceProduct->giamoi == 0)
+                                                    
+                                                            @else
+                                                                <span class="old-price product-price">{{number_format($samePriceProduct->giacu)}}</span>
+                                                            @endif
+
+                                                        </div>
+
+                                                            <div class="lab-quick-view pull-right">
+                                                                <a class="quick-view" href="{{ route('detail', $samePriceProduct->id) }}"
+                                                                data-id-product="{{ $samePriceProduct->id }}"
+                                                                title="Quick view">
+                                                                <i class="pe-icon pe-7s-look"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="actions">
+                                                        <ul class="add-to-links ">
+                                                            <li class="lab-Wishlist pull-left">
+                                                                <a onclick="WishlistCart('wishlist_block_list', 'add', '{{ $samePriceProduct->id }}', $('#idCombination').val(), 1,'tabproduct'); return false;" class="add-wishlist wishlist_button" href="#"
+                                                                data-id-product="{{ $samePriceProduct->id }}"
+                                                                title="Add to Cart">
+                                                                <i class="pe-icon pe-7s-cart"></i>Giỏ hàng</a>
+
+                                                            </li>
+                                                            <li class="lab-compare pull-left">
+                                                                <a class=""
+                                                                href="{{ route('compareprd', [$productDetail->id, $samePriceProduct->id]) }}"
+                                                                data-product-name="{{ $samePriceProduct->name }}"
+                                                                data-product-cover="uploads/products/{{ $samePriceProduct->hinhanh }}" alt="{{ $samePriceProduct->name }}"
+                                                                data-id-product="{{ $samePriceProduct->id }}"
+                                                                title="So sánh">
+                                                                <i class="pe-icon pe-7s-repeat"></i>
+                                                                So sánh
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endforeach
+
+                                    {{-- search --}}
+                                    <div class="item-inner wow fadeInUp " data-wow-delay="1000ms" >
+                                            <div class="item labSearch">
+                                                <div class="left-block" id="search_block_top" class="clearfix">
+                                                   <form id="searchbox" accept-charset="utf-8">
+                                                        <input id="target" class="search_query form-control" type="text" name="" value="" placeholder="Nhập để tìm kiếm">
+                                                        <div id="result-compare" style="display: none">
+                                                            
+                                                        </div>
+                                                        <script type="text/javascript">
+                                                            $(document).ready(function() {
+                                                                $( "#target" ).keyup(function() {
+                                                                        var keyword = $(this).val();
+                                                                        var idProduct = "<?php echo $productDetail->id; ?>";
+                                                                        if (keyword.length > 0) {
+                                                                            $.ajax({
+                                                                                url: 'compare',
+                                                                                dataType : 'text',
+                                                                                type: 'GET',
+                                                                                data: {id: idProduct, keyword: keyword},
+                                                                                success: function(data) {
+                                                                                    $("div#result-compare").css({'display':'block'});
+                                                                                    $("#result-compare").html(data);
+                                                                                }
+
+                                                                            });
+                                                                        } else {
+                                                                            $("div#result-compare").css({'display': 'none'});
+                                                                        }
+                                                                });
+                                                            });
+                                                        </script>
+                                                    </form> 
+            
+                                                </div>
+                                            </div>
+                                    </div>
+                                    {{-- end search --}}
+
+                                </div>                                                    
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        {{-- end so sanh --}}
+
                     </div> <!-- itemscope product wrapper -->
+
+                    
 
                 </div><!-- #center_column -->
             </div><!-- .row -->

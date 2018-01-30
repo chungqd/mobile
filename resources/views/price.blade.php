@@ -128,11 +128,11 @@
 											<span class=" label-success">In stock</span>
 										</span>
                                         <div class="lab-cart">
-                                            <a class="button ajax_add_to_cart_button btn btn-default" href="order7a0f.html?add=1&amp;id_product=1&amp;token=8094a5532f541448c6101a27e0f8d489"
+                                            <a class="button ajax_add_to_cart_button btn btn-default" href="o{{ route('addcart', $productByPrice->id) }}"
                                                data-id-product="{{ $productByPrice->id }}"
-                                               title="Add to cart" >
+                                               title="Thêm vào giỏ hàng" >
                                                 <i class="mdi mdi-basket"></i>
-                                                <span>Add to cart</span>
+                                                <span>Giỏ hàng</span>
                                             </a>
                                         </div>
                                         <div class="actions">
@@ -150,9 +150,9 @@
                                                        data-product-name="{{ $productByPrice->name }}"
                                                        data-product-cover="uploads/products/{{ $productByPrice->hinhanh }}"
                                                        data-id-product="{{ $productByPrice->id }}"
-                                                       title="Add to Cart">
+                                                       title="Thêm vào giỏ hàng">
                                                         <i class="pe-icon pe-7s-repeat"></i>
-                                                        Add to Cart
+                                                        Giỏ hàng
                                                     </a>
                                                 </li>
                                             </ul>

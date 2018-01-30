@@ -55,4 +55,15 @@ class Product extends Model
             ->select('products.id', 'products.name as product_name', 'hinhanh', 'soluong', 'giacu', 'giamoi', 'brands.id as brands_id', 'brands.name as brand_name', 'dungluong', 'cameratruoc', 'camerasau', 'ram', 'cpu', 'hedieuhanh', 'baohanh', 'mota', 'danhgia','pin', 'created_at')
             ->first();
     }
+
+    // lay san pham co cung muc gia
+    public static function getSamePrice($price=0, $id)
+    {
+        return DB::table("products")
+            ->where('id', '<>', $id)
+            ->whereBetween('giacu', [$price - 2000000, $price + 2000000])
+            ->orWhereBetween('giamoi', [$price - 2000000, $price + 2000000])
+            ->limit(3)
+            ->get();
+    }
 }

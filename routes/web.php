@@ -27,32 +27,96 @@ Route::post('register', ['as' => 'register', 'uses' => 'HomeController@postRegis
 
 Route::get('active/{id}/{authenKey}', 'HomeController@active');
 
+// xac minh email mua hang
+Route::get('xacminh/{id}', 'HomeController@xacminh');
+
+//tin tuc
+Route::get('tintuc', ['as' => 'tintuc', 'uses' => 'HomeController@news']);
+Route::get('detailNews/{id}/{TenKhongDau}.html', 'HomeController@detailNews');
 
 Route::get('detail/{id}', ['as' => 'detail', 'uses' => 'HomeController@detailProduct']);
+
+// compare products
+Route::get('compare', ['as' => 'compare', 'uses' => 'HomeController@getIdCompare']);
+Route::get('compareprd/{idProduct}/{idCompare}', ['as' => 'compareprd', 'uses' => 'HomeController@compareProducts']);
+
 
 Route::get('brand/{id}', ['as' => 'brand', 'uses' => 'HomeController@brandProduct']);
 
 Route::get('price/{id}', ['as' => 'price', 'uses' => 'HomeController@price']);
 
 Route::get('search', ['as' => 'search', 'uses' => 'HomeController@search']);
+
+// Cart
 Route::get('addcart/{id}', ['as' => 'addcart', 'uses' => 'HomeController@addCart']);
+Route::post('addCartDetail/{id}', ['as' => 'addCartDetail', 'uses' => 'HomeController@addCartDetail']);
 
 Route::get('gio-hang', ['as' => 'gio-hang', 'uses' => 'HomeController@gioHang']);
 
 Route::get('xoa-san-pham/{id}', ['as' => 'xoa-san-pham', 'uses' => 'HomeController@delSp']);
+Route::get('destroyCart', function(){
+    Cart::destroy();
+    return redirect()->route('gio-hang');
+})->name('destroyCart');
 
 Route::post('capnhap/{id}', ['as' => 'capnhap', 'uses' => 'HomeController@updateSp']);
 
 Route::get('order', ['as' => 'order', 'uses' => 'HomeController@getOrder']);
 Route::post('order', ['as' => 'order', 'uses' => 'HomeController@postOrder']);
+// end cart
+
 // ADMIN
-Route::group(['prefix' => 'admin'], function() {
-    Route::get('login', "UserController@getLogin")->name('login');
-    Route::post('login', "UserController@postLogin");
+Route::get('admin/login', "UserController@getLogin")->name('login');
+    Route::post('admin/login', "UserController@postLogin");
+Route::group(['prefix' => 'admin','middleware' => 'checklogin'], function() {
+
+    
     Route::get('logout', "UserController@logout");
 	Route::get('home', function(){
         return view('admin.home');
     });
+
+    // Thong ke, bao cao
+    Route::group(['prefix' => 'statistical'], function() {
+        Route::get('products', ['as' => 'statistical.products', 'uses' => 'ReportController@statisProduct']);
+        Route::post('products', ['as' => 'postStatisticalProduct', 'uses' => 'ReportController@postStatisticalProduct']);
+
+        Route::get('profit', ['as' => 'statistical.profit', 'uses' => 'ReportController@statisProfit']);
+        Route::post('profit', ['as' => 'statistical.postProfit', 'uses' => 'ReportController@postStatisProfit']);
+    });
+
+    // Phieu nhap
+    Route::group(['prefix' => 'phieunhap'], function() {
+        Route::get('list', 'PhieuNhapController@index')->name('ds_phieunhap');
+        // add
+        Route::get('add', 'PhieuNhapController@getAdd');
+        Route::post('add', 'PhieuNhapController@postAdd');
+        // edit
+        Route::get('edit/{id}', 'PhieuNhapController@getEdit');
+        Route::post('edit/{id}', 'PhieuNhapController@postEdit');
+        // delete
+        Route::get('delete/{id}', 'PhieuNhapController@delete');
+        Route::get('search/{keyword}', 'PhieuNhapController@search');
+    });
+    // end phieu nhap
+    
+    // chi tiet phieu nhap
+    Route::group(['prefix' => 'ctphieunhap'], function() {
+        Route::get('list', 'CTPhieuNhapController@index')->name('ds_phieunhap');
+        // add
+        Route::get('add', 'CTPhieuNhapController@getAdd');
+        Route::post('add', 'CTPhieuNhapController@postAdd');
+
+        Route::get('getTenPhieu', 'CTPhieuNhapController@getTenPhieu');
+        Route::get('getTenSP', 'CTPhieuNhapController@getTenSP');
+        // edit
+        Route::get('edit/{idphieu}/{idproduct}', 'CTPhieuNhapController@getEdit');
+        Route::post('edit/{idphieu}/{idproduct}', 'CTPhieuNhapController@postEdit');
+        // delete
+        Route::get('delete/{idphieu}/{idproduct}', 'CTPhieuNhapController@delete');
+        Route::get('search/{keyword}', 'CTPhieuNhapController@search');
+    });
+
     // User
     Route::group(['prefix' => 'user'], function() {
         Route::get('list', 'UserController@index')->name('ds_user');
@@ -113,6 +177,9 @@ Route::group(['prefix' => 'admin'], function() {
         // delete
         Route::get('delete/{id}', 'OrderController@delete');
         Route::get('search/{keyword}', 'OrderController@search');
+
+        // xem hoa don
+        Route::get('detail/{id}', 'OrderController@detailOrder');
     });
 
     // PRODUCT

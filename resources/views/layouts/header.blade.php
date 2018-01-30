@@ -124,8 +124,8 @@
         var added_to_wishlist = 'The product was successfully added to your wishlist.';
         var ajax_allowed = true;
         var ajaxsearch = true;
-        var baseDir = 'http://labbluesky.com/prestashop/lab_techstore16/';
-        var baseUri = 'http://labbluesky.com/prestashop/lab_techstore16/';
+        //var baseDir = 'http://labbluesky.com/prestashop/lab_techstore16/';
+        //var baseUri = 'http://labbluesky.com/prestashop/lab_techstore16/';
         var blocksearch_type = 'top';
         var comparator_max_item = 3;
         var comparedProductsIds = [];
@@ -144,7 +144,7 @@
         var hasDeliveryAddress = false;
         var highDPI = false;
         var id_lang = 1;
-        var img_dir = 'http://labbluesky.com/prestashop/lab_techstore16/themes/lab_techstore_home1/img/';
+        //var img_dir = 'http://labbluesky.com/prestashop/lab_techstore16/themes/lab_techstore_home1/img/';
         var instantsearch = false;
         var isGuest = 0;
         var isLogged = 0;
@@ -152,7 +152,7 @@
         var lab_bg = '1';
         var lab_height = '480';
         var lab_newsletter = '1';
-        var lab_path = 'http://labbluesky.com/prestashop/lab_techstore16/modules/labpopupnewsletter/ajax.php';
+        //var lab_path = 'http://labbluesky.com/prestashop/lab_techstore16/modules/labpopupnewsletter/ajax.php';
         var lab_width = '800';
         var loggin_required = 'You must be logged in to manage your wishlist.';
         var max_item = 'You cannot add more than 3 product(s) to the product comparison';
@@ -765,14 +765,14 @@
                                 <!-- MODULE Block cart -->
                                 <div class="lab-shopping_cart pull-right">
                                     <div class="shopping_cart ">
-                                        <a href="order.html" title="View my shopping cart" rel="nofollow">
+                                        <a href="{{ route('order') }}" title="Hiển thị giỏ hàng" rel="nofollow">
                                             <span class="cart-icon icon pe-7s-cart"></span>
                                             <!-- <b>Cart</b> -->
-                                            <span class="ajax_cart_quantity">{{ Cart::count() }}</span>
+                                            <span class="ajax_cart_quantity">{{ number_format(Cart::count(), 0, ",", ".") }}</span>
             <!-- <span class="ajax_cart_product_txt unvisible">Product</span>
             <span class="ajax_cart_product_txt_s">Products</span> -->
             <span class="ajax_cart_total">
-                {{ Cart::subtotal() }}
+                {{ number_format(Cart::subtotal(), 0, ",", ".") }}
             </span>
             <span class="ajax_cart_no_product unvisible">(empty)</span>
         </a>
@@ -786,7 +786,7 @@
                             <a class="cart-images" href="{{ route('detail', $item->id) }}" title="{{ $item->name }}"><img width="50" height="50" src="uploads/products/{{ ($item->options->has('img') ? $item->options->img : '') }}" alt="{{ $item->name }}" /></a>
                             <div class="cart-info">
                                 <div class="product-name">
-                                    <span class="quantity-formated"><span class="quantity">{{ $item->qty }}</span>&nbsp;x&nbsp;</span><a class="cart_block_product_name" href="tshirts/1-faded-short-sleeves-tshirt.html#/size-s/color-orange" title="{{ $item->name }}">{{ $item->name }}</a>
+                                    <span class="quantity-formated"><span class="quantity">{{ $item->qty }}</span>&nbsp;x&nbsp;</span><a class="cart_block_product_name" href="{{ route('detail', $item->id) }}" title="{{ $item->name }}">{{ $item->name }}</a>
                                 </div>
                                 
                                 <span class="price">
@@ -815,8 +815,8 @@
                         </span>
                     </div>
                     <div class="cart-prices-line last-line">
-                        <span class="price cart_block_total ajax_block_cart_total">{{ Cart::subtotal() }} </span>
-                        <span>Total</span>
+                        <span class="price cart_block_total ajax_block_cart_total">{{ number_format(Cart::subtotal(), 0, ",", ".") }} </span>
+                        <span>Tổng tiền</span>
                     </div>
                 </div>
                 <p class="cart-buttons">
@@ -959,7 +959,7 @@
                     </li>
                     <li class="level-1 ">
 
-                        <a href="14-cameras.html">
+                        <a href="tintuc">
                             {{--<i class="lab-icon pe7-icon pe-7s-camera"></i>--}}
                             <span>Tin tức</span>
                         </a>
@@ -967,7 +967,7 @@
                     </li>
                     <li class="level-1 ">
 
-                        <a href="15-computers.html">
+                        <a href="">
                             {{--<i class="lab-icon pe7-icon pe-7s-monitor"></i>--}}
                             <span>Giới thiệu</span>
                         </a>
@@ -975,7 +975,7 @@
                     </li>
                     <li class="level-1 ">
 
-                        <a href="16-old-products.html">
+                        <a href="">
                             {{--<i class="lab-icon pe7-icon pe-7s-timer"></i>--}}
                             <span>Liên hệ</span>
                         </a>

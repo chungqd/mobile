@@ -7,6 +7,7 @@ use App\Brands;
 use App\Product;
 use App\DonHang;
 use App\CTDonHang;
+use App\CTPhieuNhap;
 use App\ImageProduct;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -61,8 +62,6 @@ class ProductController extends Controller
             'giabd.required'            => 'Bạn chưa giá ban đầu của sản phẩm',
             'brand.required'            => 'Bạn chưa chọn hãng của sản phẩm',
             'baohanh.required'          => 'Bạn chưa nhập thời gian bảo hành',
-            'mota.required'             => 'Bạn chưa nhập nội dung mô tả',
-            'mota.min'                  => 'Mô tả tối thiểu phải có 10 kí tự',
             'file.required'             => 'Chưa thêm hình ảnh chính',
             'file.image'                => 'Hình ảnh chính chưa đúng định dạng ảnh',
             'imgProduct.image'          => 'Chưa đúng định dạng ảnh',
@@ -80,7 +79,6 @@ class ProductController extends Controller
             'giabd'         => 'required',
             'brand'         => 'required',
             'baohanh'       => 'required',
-            'mota'          => 'required|min:1',
             'file'          => 'required|image',
             'imgProduct[]'  => 'image',
         ];
@@ -145,29 +143,39 @@ class ProductController extends Controller
         }
 
         $detailOrders = CTDonHang::where('products_id', $id)->get();
+        $ctphieunhap = CTPhieuNhap::where('products_id', $id)->get();
 
-        if (count($detailOrders) > 0 ) {
+        if (count($detailOrders) > 0) {
             echo "<script type='text/javascript'>
                 alert('Xin lỗi! Bạn phải xóa chi tiết đơn hàng và đơn hàng của sản phẩm này trước');
                 window.location = '";
             echo route('ds.product');
             echo "'</script>";
-        }
-        if (Auth::user()->quyen == 2 || Auth::user()->quyen == 3) {
-
-            //delete in table imagepath
-            $imageDetail = Product::find($id)->image->toArray();
-
-            foreach ($imageDetail as $item) {
-                File::delete("uploads/products/".$item['img_path']);
-            }
-
-            unlink("uploads/products/".$product->hinhanh);
-            $product->delete();
-            return redirect('admin/product/list')->with('thongbao', "Xóa thành công");
+        } elseif (count($ctphieunhap) > 0) {
+            echo "<script type='text/javascript'>
+                alert('Xin lỗi! Bạn phải xóa chi tiết phiếu nhập của sản phẩm này trước');
+                window.location = '";
+            echo route('ds.product');
+            echo "'</script>";
         } else {
-            return redirect('admin/product/list')->with('mess', "Không tồn tại sản phẩm cần xóa");
+            if (Auth::user()->quyen == 2 || Auth::user()->quyen == 3) {
+
+                //delete in table imagepath
+                $imageDetail = Product::find($id)->image->toArray();
+
+                foreach ($imageDetail as $item) {
+                    File::delete("uploads/products/".$item['img_path']);
+                }
+
+                unlink("uploads/products/".$product->hinhanh);
+                $product->delete();
+                return redirect('admin/product/list')->with('thongbao', "Xóa thành công");
+            } else {
+                return redirect('admin/product/list')->with('mess', "Không tồn tại sản phẩm cần xóa");
+            }
         }
+
+        
     }
 
 //    public function getDelImg(Request $request)

@@ -8,12 +8,12 @@
                     <div class="lab-loading"></div>
                     <div id="lab-slideshow" class="slides">
                         <img
-                                data-thumb="http://labbluesky.com/prestashop/lab_techstore16/modules/labslideshow/images/7e643859d8f9053a76e65947c5cd5829066e199d_slider1_home1.jpg"
+                                
                                 src="front/modules/labslideshow/images/7e643859d8f9053a76e65947c5cd5829066e199d_slider1_home1.jpg"
                                 alt="3D Touch. 12MP photos.  4K video."
                                 title="#htmlcaption7" />
                         <img
-                                data-thumb="http://labbluesky.com/prestashop/lab_techstore16/modules/labslideshow/images/21b3a89b4b3aa5f886d6078008e9d5fbd9383cfa_slider1_home2.jpg"
+                                
                                 src="front/modules/labslideshow/images/21b3a89b4b3aa5f886d6078008e9d5fbd9383cfa_slider1_home2.jpg"
                                 alt="3D Touch. 12MP photos.  4K video."
                                 title="#htmlcaption8" />
